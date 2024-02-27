@@ -1,0 +1,45 @@
+.main {
+  max-width: 600px;
+  margin-left: 16px;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  margin-top: 40px;
+  justify-content: right;
+  align-items: center;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  margin: 60px 0;
+}
+
+.icon img {
+  width: 120px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blockedItem {
+  margin-left: 24px;
+}
