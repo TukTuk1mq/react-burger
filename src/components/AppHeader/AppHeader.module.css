@@ -1,0 +1,33 @@
+.main {
+  width: 100%;
+  background: rgba(28, 28, 33, 1);
+}
+
+.header {
+  background: rgba(28, 28, 33, 1);
+  max-width: 1240px;
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 35px;
+}

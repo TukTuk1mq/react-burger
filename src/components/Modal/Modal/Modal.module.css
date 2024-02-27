@@ -1,0 +1,19 @@
+.modal {
+  position: fixed;
+  top: 5%;
+  left: 25%;
+  width: 720px;
+  height: auto;
+  background-color: rgba(28, 28, 33, 1);
+  padding: "50px";
+  z-index: 1000;
+  border-radius: 25px;
+}
+
+.CloseIcon {
+  position: absolute;
+  right: 40px;
+  top: 60px;
+  background-color: transparent;
+  border: none;
+}
