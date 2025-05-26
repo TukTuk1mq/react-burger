@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
-import orderDoneImg from "../../../images/graphics.svg"
+import orderDoneImg from "../../../images/graphics.svg";
 
 export default function OrderDetails() {
   return (
