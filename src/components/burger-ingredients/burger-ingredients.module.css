@@ -24,7 +24,7 @@
 }
 
 .ingredients {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 70vh;
   max-width: 600px;
 }

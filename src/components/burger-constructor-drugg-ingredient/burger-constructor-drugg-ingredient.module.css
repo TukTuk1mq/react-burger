@@ -1,0 +1,7 @@
+.draggableItem {
+  cursor: move;
+}
+
+.dragging {
+  opacity: 0.3;
+}
