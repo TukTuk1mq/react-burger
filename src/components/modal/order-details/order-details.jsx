@@ -2,10 +2,16 @@ import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import orderDoneImg from "../../../images/graphics.svg";
 
-export default function OrderDetails() {
+export default function OrderDetails({ orderNumber, error}) {
+  if(error) {
+    return <div className={styles.wrap}>Ошибка: {error}</div>;
+  }
+  if(!orderNumber) {
+    return <div className={styles.wrap}>Идет загрузка...</div>;
+  }
   return (
     <div className={styles.wrap}>
-      <div className="text text_type_digits-large mb-4">034536</div>
+      <div className="text text_type_digits-large mb-4">{orderNumber}</div>
       <p className="text text_type_main-medium mb-5 pb-2">
         Идентификатор заказа
       </p>
@@ -18,4 +24,9 @@ export default function OrderDetails() {
       </p>
     </div>
   );
+}
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.string
 }

@@ -1,27 +1,24 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { getIngredients } from "../../utils/api";
+import { fetchIngredients } from "../../services/ingredients-slice";
+import { getData } from "../../services/selectors";
 
 export const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const {
+    items: ingredients,
+    isLoading,
+    error,
+  } = useSelector(getData);
 
   useEffect(() => {
-    getIngredients()
-      .then((data) => {
-        setIngredients(data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setIsLoading(false);
-      });
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -32,11 +29,11 @@ export const App = () => {
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
         {isLoading && <p>Загрузка...</p>}
-        {error && <p className="text text_type_main-medium">{error}</p>}{" "}
+        {error && <p className="text text_type_main-medium">{error}</p>}
         {!isLoading && !error && (
           <>
-            <BurgerIngredients ingredients={ingredients} />
-            <BurgerConstructor ingredients={ingredients} />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </>
         )}
       </main>

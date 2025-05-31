@@ -1,0 +1,15 @@
+.card {
+  width: 272px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  margin-bottom: 32px;
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.dragging {
+  opacity: 0.5;
+}

@@ -1,21 +1,23 @@
 const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 
-const getResponseData = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-// const getIngredients = () => {
-//     return fetch(`${BURGER_API_URL}/ingredients`)
-//       .then(getResponseData)
-//       .then((data) => {
-//         if (data?.success) return data.data;
-//         return Promise.reject(data);
-//       });
-//   };
-
-export const getIngredients = async () => {
-  const response = await fetch(`${BURGER_API_URL}/ingredients`);
-  if (!response.ok) {
-    throw new Error("Ошибка загрузки данных");
+export const checkResponse = (res) => {
+  if (res.ok) {
+    return res.json();
   }
-  return await response.json();
+  return res.json().then((err) => {
+    throw new Error(err.message || `Ошибка ${res.status}`);
+  });
 };
+
+export function request(endpoint, options) {
+  return fetch(`${BURGER_API_URL}${endpoint}`, options).then(checkResponse);
+}
+
+export const getIngredients = async () => request("/ingredients");
+
+export const postOrder = async (ingredientIds) =>
+  request("/orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ingredients: ingredientIds }),
+  });

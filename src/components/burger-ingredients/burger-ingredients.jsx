@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, use } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
+import { addIngredient } from "../../services/constructor-slice";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import {
@@ -9,22 +12,66 @@ import {
 import { ingredientPropType } from "../../utils/prop-types";
 import Modal from "../modal/modal/modal";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
+import { IngredientCard } from "../ingredient-card/ingredient-card";
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("bun");
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const ingredients = useSelector((state) => state.ingredients.items);
+
+  const dispatch = useDispatch();
+  const { bun, ingredients: constructorIngredients } = useSelector(
+    (state) => state.constructorBurger
+  );
+
+  const containerRef = useRef(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+
   const categories = [
-    { value: "bun", label: "Булки" },
-    { value: "sauce", label: "Соусы" },
-    { value: "main", label: "Начинки" },
+    { value: "bun", label: "Булки", ref: bunRef },
+    { value: "sauce", label: "Соусы", ref: sauceRef },
+    { value: "main", label: "Начинки", ref: mainRef },
   ];
+
+  const getCount = (item) => {
+    if (item.type === "bun") {
+      return bun && bun._id === item._id ? 2 : 0;
+    }
+    return constructorIngredients.filter((i) => i._id === item._id).length;
+  };
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setOpenModal(true);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const containerTop = containerRef.current.getBoundingClientRect().top;
+      const offsets = categories.map((cat) => ({
+        value: cat.value,
+        offset: Math.abs(
+          cat.ref.current.getBoundingClientRect().top - containerTop
+        ),
+      }));
+      const closest = offsets.reduce((a, b) => (a.offset < b.offset ? a : b));
+      setCurrentCategory(closest.value);
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [categories]);
 
   return (
     <section className={styles.burgerIngredients}>
@@ -35,16 +82,15 @@ export const BurgerIngredients = ({ ingredients }) => {
               key={category.value}
               value={category.value}
               active={currentCategory === category.value}
-              onClick={() => setCurrentCategory(category.value)}
             >
               {category.label}
             </Tab>
           ))}
         </ul>
       </nav>
-      <div className={styles.ingredients}>
+      <div className={styles.ingredients} ref={containerRef}>
         {categories.map((category) => (
-          <div key={category.value}>
+          <div key={category.value} ref={category.ref}>
             <h2 className="text text_type_main-medium mt-10 mb-6">
               {category.label}
             </h2>
@@ -52,43 +98,23 @@ export const BurgerIngredients = ({ ingredients }) => {
               {ingredients
                 .filter((item) => item.type === category.value)
                 .map((item) => (
-                  <button
+                  <IngredientCard
                     key={item._id}
-                    className={styles.card}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    <div className={styles.imageWrapper}>
-                      <Counter count={1} size="default" extraClass="m-1" className={styles.count}/>
-                      <img src={item.image} alt={item.name} />
-                    </div>
-                    <p
-                      className={`${styles.price} text text_type_digits-default`}
-                    >
-                      {item.price}
-                      <CurrencyIcon type="primary" />
-                    </p>
-                    <p className={`${styles.name} text text_type_main-small`}>
-                      {item.name}
-                    </p>
-                  </button>
+                    item={item}
+                    count={getCount(item)}
+                    onClick={handleItemClick}
+                  />
                 ))}
+              ;
             </div>
           </div>
         ))}
       </div>
       {openModal && selectedItem && (
-        <Modal
-          title="Детали ингридиента"
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-        >
+        <Modal title="Детали ингридиента" onClose={() => setOpenModal(false)}>
           <IngredientDetails selectedItem={selectedItem} />
         </Modal>
       )}
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
