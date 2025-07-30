@@ -15,6 +15,8 @@ import {
   URL_ANY,
   URL_PROFILE,
   URL_RESET_PASSWORD,
+  URL_INGREDIENTS,
+  URL_PROFILE_LOGOUT,
 } from "../../utils/routes";
 import {
   MainPage,
@@ -23,7 +25,7 @@ import {
   Profile,
   ProfileEdit,
   ProfileLogout,
-  IngredientDetailsPage
+  IngredientDetailsPage,
 } from "../../pages";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import NotFound from "../../pages/404/404";
@@ -49,7 +51,10 @@ export const App = () => {
       <main className={`${styles.main} pl-5 pr-5`}>
         <Routes location={background || location}>
           <Route path={URL_ROOT} element={<MainPage />} />
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route
+            path={`${URL_INGREDIENTS}/:id`}
+            element={<IngredientDetailsPage />}
+          />
           <Route
             path={URL_LOGIN}
             element={
@@ -91,15 +96,14 @@ export const App = () => {
             }
           >
             <Route index element={<ProfileEdit />} />
-            <Route path="logout" element={<ProfileLogout />} />
+            <Route path={URL_PROFILE_LOGOUT} element={<ProfileLogout />} />
           </Route>
-          <Route path="/ingredients/:id" element={""} />
           <Route path={URL_ANY} element={<NotFound />} />
         </Routes>
         {background && (
           <Routes>
             <Route
-              path="/ingredients/:id"
+              path={`${URL_INGREDIENTS}/:id`}
               element={
                 <Modal onClose={() => navigate(-1)}>
                   <IngredientDetails />

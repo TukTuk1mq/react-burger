@@ -6,7 +6,7 @@ import {
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
-import { URL_PROFILE, URL_ROOT } from "../../utils/routes";
+import { URL_LENTA, URL_PROFILE, URL_ROOT } from "../../utils/routes";
 
 export const AppHeader = () => {
   return (
@@ -28,7 +28,7 @@ export const AppHeader = () => {
             )}
           </NavLink>
           <NavLink
-            to="/feed"
+            to={URL_LENTA}
             className={({ isActive }) =>
               `${styles.link} ml-10 ${isActive ? styles.link_active : ""}`
             }
@@ -45,7 +45,7 @@ export const AppHeader = () => {
         </div>
 
         <div className={styles.logo}>
-          <Logo href={URL_ROOT} />
+          <Logo />
         </div>
 
         <NavLink

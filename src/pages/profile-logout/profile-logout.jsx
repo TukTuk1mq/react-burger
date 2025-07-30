@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/user-slice";
 import { useNavigate } from "react-router-dom";
+import { URL_LOGIN } from "../../utils/routes";
 
 export default function ProfileLogout() {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ export default function ProfileLogout() {
 
   useEffect(() => {
     dispatch(logout());
-    navigate("/login", { replace: true });
+    navigate(URL_LOGIN, { replace: true });
   }, [dispatch, navigate]);
 
   return <p>Выход...</p>;

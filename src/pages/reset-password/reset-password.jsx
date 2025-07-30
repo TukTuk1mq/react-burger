@@ -5,7 +5,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { URL_LOGIN, URL_ROOT } from "../../utils/routes";
+import { URL_FORGOT_PASSWORD, URL_LOGIN, URL_ROOT } from "../../utils/routes";
 import { useSelector } from "react-redux";
 
 function ResetPassword() {
@@ -46,7 +46,7 @@ function ResetPassword() {
       return;
     }
     if (localStorage.getItem("resetPasswordAllowed") !== "true") {
-      navigate("/forgot-password", { replace: true });
+      navigate(URL_FORGOT_PASSWORD, { replace: true });
     }
     return () => {
       localStorage.removeItem("resetPasswordAllowed");
