@@ -1,18 +1,44 @@
 import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.css";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchIngredients } from "../../../services/ingredients-slice";
 
 export default function IngredientDetails({ selectedItem }) {
+  const { id } = useParams();
+  const ingredients = useSelector((state) => state.ingredients.items);
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      if (!ingredients.length) {
+        dispatch(fetchIngredients());
+      }
+    },
+    dispatch,
+    ingredients.length
+  );
+
+  const ingredient = ingredients.find((item) => item._id === id);
+
+  if (!ingredients.length) {
+    return <p>Загрузка...</p>;
+  }
+  if (!ingredient) {
+    return <p>Ингредиент не найден</p>;
+  }
   return (
     <div>
       <img
         className={`${styles.image} mb-4`}
-        src={selectedItem.image_large}
+        src={ingredient.image_large}
         alt="Изображение ингредиента"
       />
       <p
         className={`${styles.name} text-center text text_type_main-medium mb-8`}
       >
-        {selectedItem.name}
+        {ingredient.name}
       </p>
       <div className={`${styles.detail} mb-15`}>
         <div>
@@ -20,7 +46,7 @@ export default function IngredientDetails({ selectedItem }) {
             Калории,ккал
           </div>
           <div className="text-center text text_type_digits-default text_color_inactive">
-            {selectedItem.calories}
+            {ingredient.calories}
           </div>
         </div>
         <div>
@@ -28,7 +54,7 @@ export default function IngredientDetails({ selectedItem }) {
             Белки, г
           </div>
           <div className="text-center text text_type_digits-default text_color_inactive">
-            {selectedItem.proteins}
+            {ingredient.proteins}
           </div>
         </div>
         <div>
@@ -36,7 +62,7 @@ export default function IngredientDetails({ selectedItem }) {
             Жиры, г
           </div>
           <div className="text-center text text_type_digits-default text_color_inactive">
-            {selectedItem.fat}
+            {ingredient.fat}
           </div>
         </div>
         <div>
@@ -44,7 +70,7 @@ export default function IngredientDetails({ selectedItem }) {
             Углеводы, г
           </div>
           <div className="text-center text text_type_digits-default text_color_inactive">
-            {selectedItem.carbohydrates}
+            {ingredient.carbohydrates}
           </div>
         </div>
       </div>
