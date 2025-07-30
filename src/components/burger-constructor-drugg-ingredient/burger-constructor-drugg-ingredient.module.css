@@ -1,0 +1,11 @@
+.draggableItem {
+  cursor: move;
+}
+
+.draggableItem:not(:last-child) {
+    margin: 8px 0;
+}
+
+.dragging {
+  opacity: 0.3;
+}
