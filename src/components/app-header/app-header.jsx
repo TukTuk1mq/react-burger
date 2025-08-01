@@ -44,9 +44,9 @@ export const AppHeader = () => {
           </NavLink>
         </div>
 
-        <div className={styles.logo}>
+        <NavLink to={URL_ROOT} className={styles.logo}>
           <Logo />
-        </div>
+        </NavLink>
 
         <NavLink
           to={URL_PROFILE}

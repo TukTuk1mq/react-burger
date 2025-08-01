@@ -4,7 +4,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   URL_FORGOT_PASSWORD,
   URL_REGISTER,
@@ -13,23 +13,27 @@ import {
 import { setCookie } from "../../utils/cookie";
 import { loginUser } from "../../services/user-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
 
 function Login() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
   const { isAuth, error } = useSelector((state) => state.user);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange } = useForm({ email: "", password: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email: values.email, password: values.password }));
   };
 
   useEffect(() => {
-    if (isAuth) navigate(URL_ROOT);
-  }, [isAuth, navigate]);
+    if (isAuth) {
+      const redirectPath = location.state?.from?.pathname || URL_ROOT;
+      navigate(redirectPath, { replace: true });
+    }
+  }, [isAuth, navigate, location]);
 
   return (
     <main className="page-container">
@@ -38,14 +42,14 @@ function Login() {
         <EmailInput
           extraClass="mb-6"
           name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={values.email}
+          onChange={handleChange}
         />
         <PasswordInput
           extraClass="mb-6"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={values.password}
+          onChange={handleChange}
         />
         <Button type="primary" extraClass="mb-20" htmlType="submit">
           Войти

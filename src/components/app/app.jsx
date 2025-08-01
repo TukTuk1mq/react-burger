@@ -105,7 +105,7 @@ export const App = () => {
             <Route
               path={`${URL_INGREDIENTS}/:id`}
               element={
-                <Modal onClose={() => navigate(-1)}>
+                <Modal title="Детали ингредиента" onClose={() => navigate(-1)}>
                   <IngredientDetails />
                 </Modal>
               }

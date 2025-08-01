@@ -10,9 +10,6 @@ function MainPage() {
   const dispatch = useDispatch();
   const { items: ingredients, isLoading, error } = useSelector(getData);
 
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
 
   return (
     <div className={styles.app}>

@@ -10,19 +10,28 @@ import { URL_LOGIN, URL_ROOT } from "../../utils/routes";
 import { registerUser } from "../../services/user-slice";
 import { setCookie } from "../../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
 
 function Registration() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, error } = useSelector((state) => state.user);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(registerUser({ email, password, name }));
+    dispatch(
+      registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+    );
   };
 
   useEffect(() => {
@@ -34,24 +43,16 @@ function Registration() {
       <form className="page-container-inner" onSubmit={handleSubmit}>
         <>
           <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
-          <Input
-            placeholder="Имя"
-            extraClass="mb-6"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <Input name="name" value={values.name} onChange={handleChange} />
           <EmailInput
-            extraClass="mb-6"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={values.email}
+            onChange={handleChange}
           />
           <PasswordInput
-            extraClass="mb-6"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={values.password}
+            onChange={handleChange}
           />
 
           <Button type="primary" extraClass="mb-20" htmlType="submit">

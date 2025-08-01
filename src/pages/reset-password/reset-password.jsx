@@ -7,10 +7,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { URL_FORGOT_PASSWORD, URL_LOGIN, URL_ROOT } from "../../utils/routes";
 import { useSelector } from "react-redux";
+import { request } from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
 
 function ResetPassword() {
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const { values, handleChange } = useForm({ password: "", token: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -21,15 +22,14 @@ function ResetPassword() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://norma.nomoreparties.space/api/password-reset/reset",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password, token }),
-        }
-      );
-      const data = await res.json();
+      const data = await request("/password-reset/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password: values.password,
+          token: values.token,
+        }),
+      });
       if (!data.success) throw new Error(data.message || "Ошибка");
       navigate(URL_LOGIN);
       alert("Пароль успешно изменён");
@@ -62,15 +62,15 @@ function ResetPassword() {
         <PasswordInput
           extraClass="mb-6"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={values.password}
+          onChange={handleChange}
           placeholder="Введите новый пароль"
         />
         <Input
           extraClass="mb-6"
           name="token"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
+          value={values.token}
+          onChange={handleChange}
           placeholder="Введите код из письма"
         />
         <Button

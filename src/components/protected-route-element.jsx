@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { URL_LOGIN, URL_ROOT } from "../utils/routes";
 import { getCookie } from "../utils/cookie";
 import { fetchUser, setUserChecked } from "../services/user-slice";
+import Preloader from "./preloader/preloader";
 
 export const ProtectedRouteElement = ({ onlyUnAuth = false, children }) => {
   const { isAuth, isUserChecked } = useSelector((state) => state.user || {});
@@ -19,7 +20,7 @@ export const ProtectedRouteElement = ({ onlyUnAuth = false, children }) => {
   }, [dispatch, isUserChecked]);
 
   if (!isUserChecked) {
-    return null;
+    return <Preloader />;
   }
 
   if (onlyUnAuth && isAuth) {

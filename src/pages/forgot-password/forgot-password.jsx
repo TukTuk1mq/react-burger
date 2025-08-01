@@ -6,11 +6,14 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
+import { request } from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
+  const { values, handleChange } = useForm({ email: "" });
+
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,15 +22,11 @@ function ForgotPassword() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://norma.nomoreparties.space/api/password-reset",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-      const data = await res.json();
+      const data = await request("/password-reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: values.email }),
+      });
       if (!data.success) throw new Error(data.message || "Ошибка");
       localStorage.setItem("resetPasswordAllowed", "true");
       navigate(URL_RESET_PASSWORD);
@@ -42,29 +41,35 @@ function ForgotPassword() {
   return (
     <main className="page-container">
       <form className="page-container-inner" onSubmit={handleSubmit}>
-        <>
-          <h1 className="text text_type_main-medium mb-6">
-            Восстановление пароля
-          </h1>
-          <EmailInput
-            extraClass="mb-6"
-            placeholder="Укажите e-mail"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <Button type="primary" extraClass="mb-20" htmlType="submit">
-            Восстановить
-          </Button>
-
-          <p className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?{" "}
-            <Link className="page-link" to={URL_LOGIN}>
-              Войти
-            </Link>
+        <h1 className="text text_type_main-medium mb-6">
+          Восстановление пароля
+        </h1>
+        <EmailInput
+          extraClass="mb-6"
+          placeholder="Укажите e-mail"
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+        />
+        <Button
+          type="primary"
+          extraClass="mb-20"
+          htmlType="submit"
+          disabled={loading}
+        >
+          {loading ? "Отправка..." : "Восстановить"}
+        </Button>
+        {error && (
+          <p className="text text_type_main-default text_color_error">
+            {error}
           </p>
-        </>
+        )}
+        <p className="text text_type_main-default text_color_inactive">
+          Вспомнили пароль?{" "}
+          <Link className="page-link" to={URL_LOGIN}>
+            Войти
+          </Link>
+        </p>
       </form>
     </main>
   );

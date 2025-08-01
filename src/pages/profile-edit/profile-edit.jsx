@@ -11,15 +11,20 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useForm } from "../../hooks/useForm";
 
 export default function ProfileEdit() {
   const dispatch = useDispatch();
   const { user, isLoading, error } = useSelector((state) => state.user);
 
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const [isChanged, setIsChanged] = useState(false);
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const [initialUser, setInitialUser] = useState({ name: "", email: "" });
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     if (!user) dispatch(fetchUser());
@@ -27,30 +32,28 @@ export default function ProfileEdit() {
 
   useEffect(() => {
     if (user) {
-      setForm({ name: user.name, email: user.email, password: "" });
+      setValues({ name: user.name, email: user.email, password: "" });
       setInitialUser({ name: user.name, email: user.email });
       setIsChanged(false);
     }
-  }, [user]);
+  }, [user, setValues]);
 
   useEffect(() => {
     if (
-      form.name !== initialUser.name ||
-      form.email !== initialUser.email ||
-      form.password !== ""
+      values.name !== initialUser.name ||
+      values.email !== initialUser.email ||
+      values.password !== ""
     ) {
       setIsChanged(true);
     } else {
       setIsChanged(false);
     }
-  }, [form, initialUser]);
-
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  }, [values, initialUser]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const payload = { name: form.name, email: form.email };
-    if (form.password) payload.password = form.password;
+    const payload = { name: values.name, email: values.email };
+    if (values.password) payload.password = values.password;
     dispatch(updateUser(payload));
     setIsChanged(false);
   };
@@ -58,7 +61,11 @@ export default function ProfileEdit() {
   const onReset = (e) => {
     e.preventDefault();
     dispatch(resetUserEdit());
-    setForm({ name: initialUser.name, email: initialUser.email, password: "" });
+    setValues({
+      name: initialUser.name,
+      email: initialUser.email,
+      password: "",
+    });
     setIsChanged(false);
   };
 
@@ -77,22 +84,22 @@ export default function ProfileEdit() {
         name="name"
         placeholder="Имя"
         icon="EditIcon"
-        value={form.name}
-        onChange={onChange}
+        value={values.name}
+        onChange={handleChange}
       />
       <EmailInput
         extraClass="mb-6"
         name="email"
         icon="EditIcon"
-        value={form.email}
-        onChange={onChange}
+        value={values.email}
+        onChange={handleChange}
       />
       <PasswordInput
         extraClass="mb-6"
         name="password"
         icon="EditIcon"
-        value={form.password}
-        onChange={onChange}
+        value={values.password}
+        onChange={handleChange}
       />
       {isChanged && (
         <div>

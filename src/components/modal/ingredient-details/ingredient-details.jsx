@@ -10,16 +10,6 @@ export default function IngredientDetails({ selectedItem }) {
   const ingredients = useSelector((state) => state.ingredients.items);
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      if (!ingredients.length) {
-        dispatch(fetchIngredients());
-      }
-    },
-    dispatch,
-    ingredients.length
-  );
-
   const ingredient = ingredients.find((item) => item._id === id);
 
   if (!ingredients.length) {
@@ -77,14 +67,3 @@ export default function IngredientDetails({ selectedItem }) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  selectedItem: PropTypes.shape({
-    image_large: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-  }).isRequired,
-};

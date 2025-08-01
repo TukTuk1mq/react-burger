@@ -19,6 +19,7 @@ import {
   removeIngredient,
 } from "../../services/constructor-slice";
 import { BurgerConstructorDruggIngredient } from "../burger-constructor-drugg-ingredient/burger-constructor-drugg-ingredient";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -28,13 +29,16 @@ export const BurgerConstructor = () => {
   const { isAuth } = useSelector((state) => state.user);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   };
 
   const handleOrder = () => {
     if (!isAuth) {
-      setShowAuthModal(true);
+      navigate("/login", { state: { from: location } });
       return;
     }
     if (!bun) return;
