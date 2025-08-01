@@ -1,4 +1,4 @@
-const BURGER_API_URL = "https://norma.nomoreparties.space/api";
+export const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 
 export const checkResponse = (res) => {
   if (res.ok) {

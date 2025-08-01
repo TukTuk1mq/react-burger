@@ -1,20 +1,70 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --width-outer: 1280px;
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.text-center {
+  text-align: center;
+}
+
+.page-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+
+  overflow-y: auto;
+}
+
+@media (max-height: 500px) {
+  .page-container {
+    align-items: flex-start;
+    padding-top: 7rem;
+  }
+}
+
+.page-container-inner {
+  text-align: center;
+}
+
+.page-container-profile {
+  justify-content: flex-start;
+
+  
+}
+
+.page-container-profile-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.page-container-profile-sidebar {
+  width: 320px;
+}
+
+.page-container-profile-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.page-container-profile-sidebar a {
+  text-decoration: none;
+  line-height: 64px;
+}
+
+.page-link {
+  color: #4c4cff;
+  text-decoration: none;
+}
+
+.page-link:hover {
+  text-decoration: underline;
+}
+
+.text_color_dark {
+  color: #404052;
 }

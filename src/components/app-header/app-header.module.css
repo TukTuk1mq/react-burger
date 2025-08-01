@@ -1,5 +1,6 @@
 .header {
 	background-color: var(--background);
+	z-index: 1000;
 }
 
 .menu {
