@@ -18,17 +18,19 @@ export const ProtectedRouteElement = ({ onlyUnAuth = false, children }) => {
       dispatch(setUserChecked());
     }
   }, [dispatch, isUserChecked]);
+ 
+  const from = location.state?.from || location;
 
   if (!isUserChecked) {
     return <Preloader />;
   }
 
   if (onlyUnAuth && isAuth) {
-    return <Navigate to={URL_ROOT} replace />;
+    return <Navigate to={from} replace/>;
   }
 
   if (!onlyUnAuth && !isAuth) {
-    return <Navigate to={URL_LOGIN} replace state={{ from: location }} />;
+    return <Navigate to={URL_LOGIN} replace state={{ from: location}}/>;
   }
 
   return children;
