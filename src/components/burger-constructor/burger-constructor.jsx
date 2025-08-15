@@ -19,18 +19,28 @@ import {
   removeIngredient,
 } from "../../services/constructor-slice";
 import { BurgerConstructorDruggIngredient } from "../burger-constructor-drugg-ingredient/burger-constructor-drugg-ingredient";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector((state) => state.constructorBurger);
   const { orderNumber, isLoading, error } = useSelector((state) => state.order);
+  const { isAuth } = useSelector((state) => state.user);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   };
 
   const handleOrder = () => {
+    if (!isAuth) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
     if (!bun) return;
     const ingredientIds = [
       bun._id,
@@ -107,6 +117,14 @@ export const BurgerConstructor = () => {
         >
           {isLoading ? "Оформляем заказ..." : "Оформить заказ"}
         </Button>
+        {showAuthModal && (
+          <Modal onClose={() => setShowAuthModal(false)}>
+            <p className="text text_type_main-medium p-10">
+              Для оформления заказа необходимо зарегистрироваться или войти в
+              аккаунт.
+            </p>
+          </Modal>
+        )}
         {openModal && (
           <Modal onClose={handleCloseModal}>
             <OrderDetails orderNumber={orderNumber} error={error} />

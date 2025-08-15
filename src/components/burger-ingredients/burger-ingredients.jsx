@@ -13,11 +13,15 @@ import { ingredientPropType } from "../../utils/prop-types";
 import Modal from "../modal/modal/modal";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { IngredientCard } from "../ingredient-card/ingredient-card";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BurgerIngredients = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("bun");
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const ingredients = useSelector((state) => state.ingredients.items);
 
@@ -45,8 +49,7 @@ export const BurgerIngredients = () => {
   };
 
   const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setOpenModal(true);
+    navigate(`/ingredients/${item._id}`, { state: { background: location } });
   };
 
   useEffect(() => {
@@ -110,11 +113,7 @@ export const BurgerIngredients = () => {
           </div>
         ))}
       </div>
-      {openModal && selectedItem && (
-        <Modal title="Детали ингридиента" onClose={() => setOpenModal(false)}>
-          <IngredientDetails selectedItem={selectedItem} />
-        </Modal>
-      )}
+      
     </section>
   );
 };
