@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import {
   updateUser,
   resetUserEdit,
@@ -21,8 +21,8 @@ interface UserFormValues {
 }
 
 const ProfileEdit: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user, isLoading, error } = useSelector(
+  const dispatch = useAppDispatch();
+  const { user, isLoading, error } = useAppSelector(
     (state: RootState) => state.user
   );
 

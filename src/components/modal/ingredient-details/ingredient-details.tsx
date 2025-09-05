@@ -1,9 +1,9 @@
 import styles from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { useEffect } from "react";
 import { fetchIngredients } from "../../../services/ingredients-slice";
-import { RootState, AppDispatch } from "../../../services/store";
+import { RootState } from "../../../services/store";
 
 interface Ingredient {
   _id: string;
@@ -26,8 +26,8 @@ interface IngredientDetailsProps {
 
 export default function IngredientDetails({ selectedItem }: IngredientDetailsProps) {
   const { id } = useParams<{ id: string }>();
-  const ingredients = useSelector((state: RootState) => state.ingredients.items);
-  const dispatch: AppDispatch = useDispatch();
+  const ingredients = useAppSelector((state: RootState) => state.ingredients.items);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (ingredients.length === 0) {

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/hooks";
 import { logout } from "../../services/user-slice";
 import { useNavigate } from "react-router-dom";
 import { URL_LOGIN } from "../../utils/routes";
-import type { AppDispatch } from "../../services/store";
 
 const ProfileLogout: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
 

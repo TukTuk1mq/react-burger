@@ -11,7 +11,7 @@ import {
   URL_ROOT,
 } from "../../utils/routes";
 import { loginUser } from "../../services/user-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useForm } from "../../hooks/useForm";
 import type { AppDispatch, RootState } from "../../services/store";
 
@@ -21,10 +21,10 @@ interface FormValues {
 }
 
 const Login: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuth, error } = useSelector((state: RootState) => state.user);
+  const { isAuth, error } = useAppSelector((state: RootState) => state.user);
 
   const { values, handleChange } = useForm<FormValues>({
     email: "",

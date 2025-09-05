@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getOrdersUser } from "../../services/selectors";
 import {
   userConnectionStart,
@@ -14,8 +14,8 @@ import Loader from "../../components/loader/loader";
 import OrdersList from "../../components/orders-list/orders-list";
 
 function ProfileOrders() {
-  const dispatch = useDispatch();
-  const { connected, connecting, error, message } = useSelector(getOrdersUser);
+  const dispatch = useAppDispatch();
+  const { connected, connecting, error, message } = useAppSelector(getOrdersUser);
   const [retryCount, setRetryCount] = useState(0);
 
   const normalizeToken = (token: string): string =>

@@ -1,12 +1,12 @@
 import React, { useMemo, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useParams } from "react-router-dom";
 import { getData } from "../../services/selectors";
 import {
   getOrderDetails,
   clearOrderDetails,
 } from "../../services/order-details-slice";
-import type { AppDispatch, RootState } from "../../services/store";
+import type { RootState } from "../../services/store";
 import type { TIngredient } from "../../utils/types";
 
 import styles from "./order-info.module.css";
@@ -17,13 +17,13 @@ import {
 import Loader from "../../components/loader/loader";
 
 const OrderInfo: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
-  const { order, isLoading, error } = useSelector(
+  const { order, isLoading, error } = useAppSelector(
     (state: RootState) => state.orderDetails
   );
-  const { items: ingredients } = useSelector(getData);
+  const { items: ingredients } = useAppSelector(getData);
 
   useEffect(() => {
     if (id) {

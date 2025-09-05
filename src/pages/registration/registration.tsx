@@ -8,7 +8,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { URL_LOGIN, URL_ROOT } from "../../utils/routes";
 import { registerUser } from "../../services/user-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useForm } from "../../hooks/useForm";
 import type { AppDispatch, RootState } from "../../services/store";
 
@@ -19,9 +19,9 @@ interface FormValues {
 }
 
 const Registration: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuth, error } = useSelector((state: RootState) => state.user);
+  const { isAuth, error } = useAppSelector((state: RootState) => state.user);
 
   const { values, handleChange } = useForm<FormValues>({
     name: "",

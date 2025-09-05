@@ -5,7 +5,7 @@ import {
 import { FC, useMemo } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/hooks";
 import { getData } from "../../services/selectors";
 import { TIngredient, TOrder } from "../../utils/types";
 import styles from "./order-list-item.module.css";
@@ -19,7 +19,7 @@ const OrdersListItem: FC<TProp> = ({ order, isPerson }) => {
   const location = useLocation();
   const maxIngredients = 6;
 
-  const { items: ingredients } = useSelector(getData);
+  const { items: ingredients } = useAppSelector(getData);
 
   const orderInfo = useMemo(() => {
     if (!ingredients.length) {

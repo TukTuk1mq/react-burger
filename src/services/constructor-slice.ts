@@ -61,10 +61,14 @@ const constructorSlice = createSlice({
       const [removed] = items.splice(dragIndex, 1);
       items.splice(hoverIndex, 0, removed);
     },
+    clearConstructor(state) {
+      state.bun = null;
+      state.ingredients = [];
+    },
   },
 });
 
-export const { addIngredient, removeIngredient, moveIngredient } = constructorSlice.actions;
+export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } = constructorSlice.actions;
 export default constructorSlice.reducer;
 
 export type { Ingredient, ConstructorIngredient, ConstructorState };

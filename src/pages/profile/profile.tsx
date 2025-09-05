@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import {
   NavLink,
   Outlet,
@@ -18,9 +18,9 @@ import type { AppDispatch, RootState } from "../../services/store";
 
 const Profile: React.FC = () => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuth } = useSelector((state: RootState) => state.user);
+  const { isAuth } = useAppSelector((state: RootState) => state.user);
 
   let info = "";
   if (matchPath(pathname, `${URL_PROFILE}/${URL_PROFILE_ORDERS}`)) {

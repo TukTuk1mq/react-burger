@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WebSocketOrderMessage } from "./middleware/websocket-middleware";
+import { WebSocketOrderMessage } from "./ws-types";
 
 export interface OrdersUserState {
   connected: boolean;

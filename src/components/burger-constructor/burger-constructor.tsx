@@ -10,7 +10,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderDetails from "../modal/order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import {
   addIngredient,
   moveIngredient,
@@ -18,20 +18,20 @@ import {
 } from "../../services/constructor-slice";
 import { BurgerConstructorDruggIngredient } from "../burger-constructor-drugg-ingredient/burger-constructor-drugg-ingredient";
 import { useNavigate, useLocation } from "react-router-dom";
-import { RootState, AppDispatch } from "../../services/store";
-import { ConstructorIngredient } from "../../services/constructor-slice";
+import { RootState } from "../../services/store";
+import { ConstructorIngredient, clearConstructor } from "../../services/constructor-slice";
 import { getData } from "../../services/selectors";
 
 export const BurgerConstructor: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
-  const dispatch: AppDispatch = useDispatch();
-  const { bun, ingredients } = useSelector(
+  const dispatch = useAppDispatch();
+  const { bun, ingredients } = useAppSelector(
     (state: RootState) => state.constructorBurger
   );
-  const { orderNumber, isLoading, error } = useSelector(
+  const { orderNumber, isLoading, error } = useAppSelector(
     (state: RootState) => state.order
   );
-  const { isAuth } = useSelector((state: RootState) => state.user);
+  const { isAuth } = useAppSelector((state: RootState) => state.user);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const navigate = useNavigate();
@@ -66,8 +66,15 @@ export const BurgerConstructor: React.FC = () => {
       ...ingredients.map((item: ConstructorIngredient) => item._id),
       bun._id,
     ];
-    dispatch(createOrder(ingredientIds));
-    setOpenModal(true);
+    dispatch(createOrder(ingredientIds))
+      .unwrap()
+      .then(() => {
+        setOpenModal(true);
+        dispatch(clearConstructor());
+      })
+      .catch(() => {
+        setOpenModal(true);
+      });
   };
 
   const handleCloseModal = () => {

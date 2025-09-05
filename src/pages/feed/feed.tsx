@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { WS_URL } from "../../utils/api";
 import { getOrdersAll } from "../../services/selectors";
-import type { AppDispatch } from "../../services/store";
 
 import styles from "./feed.module.css";
 import OrdersList from "../../components/orders-list/orders-list";
@@ -14,8 +13,8 @@ import {
 } from "../../services/orders-all-slice";
 
 const FeedPage: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { connected, connecting, error, message } = useSelector(getOrdersAll);
+  const dispatch = useAppDispatch();
+  const { connected, connecting, error, message } = useAppSelector(getOrdersAll);
 
   useEffect(() => {
     dispatch(connectionStart({ url: `${WS_URL}/orders/all` }));

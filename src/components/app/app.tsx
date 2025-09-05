@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../../services/hooks";
 import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
@@ -21,7 +21,6 @@ import {
   URL_FEED,
 } from "../../utils/routes";
 import OrderPage from "../../pages/order/order";
-import OrderInfo from "../order-info/order-info";
 import {
   MainPage,
   Login,
@@ -44,7 +43,7 @@ import ProfileOrders from "../../pages/prodile-orders/prodile-orders";
 export const App: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
   const background = location.state?.background;
 
   useEffect(() => {
