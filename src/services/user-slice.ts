@@ -65,7 +65,12 @@ export const loginUser = createAsyncThunk<
       return rejectWithValue(data.message || "Ошибка входа");
     }
 
-    setCookie("accessToken", data.accessToken.split("Bearer ")[1]);
+    let token = data.accessToken;
+    if (token.startsWith("Bearer ")) {
+      token = token.substring(7);
+    }
+
+    setCookie("accessToken", token);
     localStorage.setItem("refreshToken", data.refreshToken || "");
     return data.user;
   } catch (error) {
@@ -93,7 +98,12 @@ export const registerUser = createAsyncThunk<
         return rejectWithValue(data.message || "Ошибка регистрации");
       }
 
-      setCookie("accessToken", data.accessToken.split("Bearer ")[1]);
+      let token = data.accessToken;
+      if (token.startsWith("Bearer ")) {
+        token = token.substring(7); 
+      }
+
+      setCookie("accessToken", token);
       localStorage.setItem("refreshToken", data.refreshToken || "");
       return data.user;
     } catch (error) {

@@ -1,0 +1,87 @@
+.main_container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+
+.status_order {
+  color: #00cccc;
+  margin-bottom: 40px;
+}
+
+.container_order {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 320px;
+  overflow: auto;
+  width: 625px;
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: thin;
+}
+
+@media (max-height: 800px) {
+  .status_order {
+    margin-bottom: 20px;
+  }
+
+  .container_order {
+    height: 180px;
+  }
+}
+
+.fill_order::-webkit-scrollbar {
+  background-color: #2f2f37;
+  width: 8px;
+}
+
+.fill_order::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.image_name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 500px;
+}
+
+.count_price {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 170px;
+}
+
+.container_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.name {
+  width: 350px;
+  word-wrap: normal;
+}
+
+.image_fill {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(to right, #801ab2, #4c4cff) border-box;
+  border-radius: 100px;
+  border: 2px solid transparent;
+  height: 64px;
+  width: 64px;
+}
+
+.food_order {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
