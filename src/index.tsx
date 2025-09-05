@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "../src/services/store";
+import { store } from "./services/store";
 import "./index.css";
 import { App } from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
-import { DndProvider } from "react-dnd";
+import { DndProvider } from "react-dnd/dist/core";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BrowserRouter } from "react-router-dom";
 
