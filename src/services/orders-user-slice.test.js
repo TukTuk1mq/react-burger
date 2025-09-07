@@ -5,22 +5,17 @@ import reducer, {
   userConnectionClosed,
   userMessageReceived,
   userClearError,
+  initialState,
 } from "./orders-user-slice";
 
 describe("orders-user-slice", () => {
-  const initial = {
-    connected: false,
-    connecting: false,
-    error: null,
-    message: null,
-  };
 
   it("initial", () => {
-    expect(reducer(undefined, { type: "X" })).toEqual(initial);
+    expect(reducer(undefined, { type: "X" })).toEqual(initialState);
   });
 
   it("connection start/success", () => {
-    const s1 = reducer(initial, userConnectionStart({ url: "wss://x" }));
+    const s1 = reducer(initialState, userConnectionStart({ url: "wss://x" }));
     expect(s1.connecting).toBe(true);
     const s2 = reducer(s1, userConnectionSuccess());
     expect(s2.connected).toBe(true);
@@ -28,7 +23,7 @@ describe("orders-user-slice", () => {
   });
 
   it("error and clear", () => {
-    const s1 = reducer(initial, userConnectionError("boom"));
+    const s1 = reducer(initialState, userConnectionError("boom"));
     expect(s1.error).toBe("boom");
     const s2 = reducer(s1, userClearError());
     expect(s2.error).toBe(null);
@@ -37,7 +32,7 @@ describe("orders-user-slice", () => {
   it("closed", () => {
     const s = reducer(
       {
-        ...initial,
+        ...initialState,
         connected: true,
         connecting: true,
         error: "e",
@@ -53,7 +48,7 @@ describe("orders-user-slice", () => {
 
   it("message", () => {
     const payload = { success: true, orders: [], total: 1, totalToday: 1 };
-    const s = reducer(initial, userMessageReceived(payload));
+    const s = reducer(initialState, userMessageReceived(payload));
     expect(s.message).toEqual(payload);
   });
 });

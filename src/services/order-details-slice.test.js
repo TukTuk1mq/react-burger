@@ -1,10 +1,10 @@
 import reducer, {
   getOrderDetails,
   clearOrderDetails,
+  initialState,
 } from "./order-details-slice";
 
 describe("order-details-slice", () => {
-  const initial = { order: null, isLoading: false, error: null };
   const order = {
     _id: "1",
     number: 42,
@@ -16,18 +16,18 @@ describe("order-details-slice", () => {
   };
 
   it("initial", () => {
-    expect(reducer(undefined, { type: "X" })).toEqual(initial);
+    expect(reducer(undefined, { type: "X" })).toEqual(initialState);
   });
 
   it("pending", () => {
-    const s = reducer(initial, { type: getOrderDetails.pending.type });
+    const s = reducer(initialState, { type: getOrderDetails.pending.type });
     expect(s.isLoading).toBe(true);
     expect(s.error).toBe(null);
   });
 
   it("fulfilled", () => {
     const s = reducer(
-      { ...initial, isLoading: true },
+      { ...initialState, isLoading: true },
       { type: getOrderDetails.fulfilled.type, payload: order }
     );
     expect(s.isLoading).toBe(false);
@@ -36,7 +36,7 @@ describe("order-details-slice", () => {
 
   it("rejected", () => {
     const s = reducer(
-      { ...initial, isLoading: true },
+      { ...initialState, isLoading: true },
       {
         type: getOrderDetails.rejected.type,
         payload: "err",

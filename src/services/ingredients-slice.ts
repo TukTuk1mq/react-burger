@@ -25,7 +25,7 @@ export const fetchIngredients = createAsyncThunk<
   }
 });
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   items: [],
   isLoading: false,
   error: null,

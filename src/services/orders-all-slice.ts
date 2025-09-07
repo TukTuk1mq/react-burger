@@ -24,7 +24,7 @@ export interface OrdersAllState {
   message: OrdersAllMessage | null;
 }
 
-const initialState: OrdersAllState = {
+export const initialState: OrdersAllState = {
   connected: false,
   connecting: false,
   error: null,

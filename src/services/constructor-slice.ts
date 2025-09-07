@@ -24,7 +24,7 @@ interface ConstructorState {
   ingredients: ConstructorIngredient[];
 }
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   bun: null,
   ingredients: [],
 };
