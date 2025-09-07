@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  matchPath,
+} from "react-router-dom";
 import { logout } from "../../services/user-slice";
 import {
   URL_LOGIN,
@@ -11,9 +17,17 @@ import {
 import type { AppDispatch, RootState } from "../../services/store";
 
 const Profile: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuth } = useSelector((state: RootState) => state.user);
+  const { isAuth } = useAppSelector((state: RootState) => state.user);
+
+  let info = "";
+  if (matchPath(pathname, `${URL_PROFILE}/${URL_PROFILE_ORDERS}`)) {
+    info = "В этом разделе вы можете просмотреть свою историю заказов";
+  } else if (matchPath(pathname, URL_PROFILE)) {
+    info = "В этом разделе вы можете изменить свои персональные данные";
+  }
 
   const handleLogout = () => {
     dispatch(logout());
@@ -41,7 +55,6 @@ const Profile: React.FC = () => {
                     Профиль
                   </span>
                 )}
-                
               </NavLink>
             </li>
             <li>
@@ -71,6 +84,9 @@ const Profile: React.FC = () => {
               </NavLink>
             </li>
           </ul>
+          <p className="text text_type_main-default text_color_dark mt-20">
+            {info}
+          </p>
         </nav>
         <section style={{ flex: 1 }}>
           <Outlet />
@@ -79,6 +95,5 @@ const Profile: React.FC = () => {
     </main>
   );
 };
-
 
 export default Profile;

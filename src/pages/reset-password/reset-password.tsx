@@ -6,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { URL_FORGOT_PASSWORD, URL_LOGIN, URL_ROOT } from "../../utils/routes";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/hooks";
 import { request } from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
 import type { RootState } from "../../services/store";
@@ -29,7 +29,7 @@ const ResetPassword: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { isAuth } = useSelector((state: RootState) => state.user);
+  const { isAuth } = useAppSelector((state: RootState) => state.user);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

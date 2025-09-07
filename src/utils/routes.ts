@@ -1,0 +1,11 @@
+export const URL_ROOT: string = "/";
+export const URL_INGREDIENTS: string = "/ingredients";
+export const URL_LOGIN: string = "/login";
+export const URL_REGISTER: string = "/registration";
+export const URL_RESET_PASSWORD: string = "/reset-password";
+export const URL_FORGOT_PASSWORD: string = "/forgot-password";
+export const URL_PROFILE: string = "/profile";
+export const URL_PROFILE_ORDERS: string = "orders";
+export const URL_PROFILE_LOGOUT: string = "logout";
+export const URL_FEED: string = "/feed";
+export const URL_ANY: string = "*";

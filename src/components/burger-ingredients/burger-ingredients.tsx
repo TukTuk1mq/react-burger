@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useDrag } from "react-dnd";
 import { addIngredient } from "../../services/constructor-slice";
 import styles from "./burger-ingredients.module.css";
@@ -29,11 +29,11 @@ export const BurgerIngredients: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ingredients = useSelector(
+  const ingredients = useAppSelector(
     (state: RootState) => state.ingredients.items
   );
-  const dispatch = useDispatch();
-  const { bun, ingredients: constructorIngredients } = useSelector(
+  const dispatch = useAppDispatch();
+  const { bun, ingredients: constructorIngredients } = useAppSelector(
     (state: RootState) => state.constructorBurger
   );
 

@@ -1,3 +1,5 @@
+import { getCookie } from "./cookie";
+
 export const BURGER_API_URL: string = "https://norma.nomoreparties.space/api";
 
 export interface ApiError {
@@ -15,6 +17,7 @@ export interface ApiResponse<T> {
   order?: {
     number: number;
   };
+  orders?: T;
 }
 
 export const checkResponse = <T>(res: Response): Promise<ApiResponse<T>> => {
@@ -61,17 +64,24 @@ export interface OrderResponse {
   success: boolean;
 }
 
+export const WS_URL = "wss://norma.nomoreparties.space";
+
 export const getIngredients = async (): Promise<ApiResponse<Ingredient[]>> =>
   request<Ingredient[]>("/ingredients");
 
 export const postOrder = async (
   ingredientIds: string[]
-): Promise<ApiResponse<OrderResponse>> =>
-  request<OrderResponse>("/orders", {
+): Promise<ApiResponse<OrderResponse>> => {
+  const token = getCookie("accessToken");
+  return request<OrderResponse>("/orders", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify({ ingredients: ingredientIds }),
   });
+}
 
 export const loginUser = async (credentials: {
   email: string;

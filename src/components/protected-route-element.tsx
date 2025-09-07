@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import { URL_LOGIN, URL_ROOT } from "../utils/routes";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { getCookie } from "../utils/cookie";
 import { fetchUser, setUserChecked } from "../services/user-slice";
 import Preloader from "./preloader/preloader";
-import type { AppDispatch, RootState } from "../services/store";
 
 interface ProtectedRouteProps {
   onlyUnAuth?: boolean;
@@ -16,11 +15,9 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
   onlyUnAuth = false,
   children,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { isAuth, isUserChecked } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { isAuth, isUserChecked } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (getCookie("accessToken") && !isUserChecked) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { BurgerIngredients } from "../../components/burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../../components/burger-constructor/burger-constructor";
 import { fetchIngredients } from "../../services/ingredients-slice";
@@ -8,8 +8,8 @@ import styles from "./main-page.module.css";
 import type { AppDispatch } from "../../services/store";
 
 const MainPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { items: ingredients, isLoading, error } = useSelector(getData);
+  const dispatch = useAppDispatch();
+  const { items: ingredients, isLoading, error } = useAppSelector(getData);
 
   React.useEffect(() => {
     dispatch(fetchIngredients());

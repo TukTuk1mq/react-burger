@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../../services/hooks";
 import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
@@ -16,8 +16,11 @@ import {
   URL_PROFILE,
   URL_RESET_PASSWORD,
   URL_INGREDIENTS,
+  URL_PROFILE_ORDERS,
   URL_PROFILE_LOGOUT,
+  URL_FEED,
 } from "../../utils/routes";
+import OrderPage from "../../pages/order/order";
 import {
   MainPage,
   Login,
@@ -26,6 +29,7 @@ import {
   ProfileEdit,
   ProfileLogout,
   IngredientDetailsPage,
+  FeedPage,
 } from "../../pages";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import NotFound from "../../pages/404/404";
@@ -34,11 +38,12 @@ import { ProtectedRouteElement } from "../protected-route-element";
 import Modal from "../modal/modal/modal";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { AppDispatch, RootState } from "../../services/store";
+import ProfileOrders from "../../pages/prodile-orders/prodile-orders";
 
 export const App: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
   const background = location.state?.background;
 
   useEffect(() => {
@@ -49,9 +54,11 @@ export const App: React.FC = () => {
     <div className={styles.app}>
       <AppHeader />
 
-      <main className={`${styles.main} pl-5 pr-5`}>
+      <main className={`${styles.main} `}>
         <Routes location={background || location}>
           <Route path={URL_ROOT} element={<MainPage />} />
+          <Route path={URL_FEED} element={<FeedPage />} />
+          <Route path="/feed/:id" element={<OrderPage />} />
           <Route
             path={`${URL_INGREDIENTS}/:id`}
             element={<IngredientDetailsPage />}
@@ -97,8 +104,17 @@ export const App: React.FC = () => {
             }
           >
             <Route index element={<ProfileEdit />} />
+            <Route path={URL_PROFILE_ORDERS} element={<ProfileOrders />} />
             <Route path={URL_PROFILE_LOGOUT} element={<ProfileLogout />} />
           </Route>
+          <Route
+            path={`${URL_PROFILE}/${URL_PROFILE_ORDERS}/:id`}
+            element={
+              <ProtectedRouteElement>
+                <OrderPage />
+              </ProtectedRouteElement>
+            }
+          />
           <Route path={URL_ANY} element={<NotFound />} />
         </Routes>
         {background && (
@@ -108,6 +124,22 @@ export const App: React.FC = () => {
               element={
                 <Modal title="Детали ингредиента" onClose={() => navigate(-1)}>
                   <IngredientDetails />
+                </Modal>
+              }
+            />
+            <Route
+              path="/feed/:id"
+              element={
+                <Modal onClose={() => navigate(-1)}>
+                  <OrderPage />
+                </Modal>
+              }
+            />
+            <Route
+              path={`${URL_PROFILE}/${URL_PROFILE_ORDERS}/:id`}
+              element={
+                <Modal onClose={() => navigate(-1)}>
+                  <OrderPage />
                 </Modal>
               }
             />
