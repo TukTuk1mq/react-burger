@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./services/store";
+import { HashRouter as Router } from "react-router-dom";
 import "./index.css";
 import { App } from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
@@ -15,9 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <DndProvider backend={HTML5Backend}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Router>
         <App />
-      </BrowserRouter>
+      </Router>
     </DndProvider>
   </Provider>
 );
