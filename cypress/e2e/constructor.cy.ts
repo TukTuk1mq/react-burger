@@ -37,12 +37,11 @@ describe("Burger Constructor — e2e", () => {
 
     cy.get(sel.card, { timeout: 10000 }).its("length").should("be.gte", 1);
     cy.get(sel.card).as("cards");
-    cy.get(sel.modal).as("modal");
-    cy.get(sel.modalClose).as("modalClose");
 
     cy.get("@cards").first().click();
-    cy.get("@modal").should("exist").contains("Детали ингредиента");
-    cy.get("@modalClose").click();
+    cy.get(sel.modal, { timeout: 10000 }).should("exist").as("modal");
+    cy.get("@modal").contains("Детали ингредиента");
+    cy.get(sel.modalClose).click();
     cy.get("@modal").should("not.exist");
   });
 
@@ -54,8 +53,6 @@ describe("Burger Constructor — e2e", () => {
     cy.get(sel.card).as("cards");
     cy.get(sel.dropzone).as("dropzone");
     cy.get(sel.createOrder).as("createOrder");
-    cy.get(sel.modal).as("modal");
-    cy.get(sel.modalClose).as("modalClose");
 
     cy.fixture("ingredients.json").then(({ data }) => {
       const bun = data.find((i: any) => i.type === "bun");
@@ -120,9 +117,10 @@ describe("Burger Constructor — e2e", () => {
 
     cy.get("@createOrder").should("not.be.disabled").click();
     cy.wait("@postOrder");
-    cy.get("@modal").should("exist").contains("Идентификатор заказа");
+    cy.get(sel.modal, { timeout: 10000 }).should("exist").as("orderModal");
+    cy.get("@orderModal").contains("Идентификатор заказа");
 
-    cy.get("@modalClose").click();
-    cy.get("@modal").should("not.exist");
+    cy.get(sel.modalClose).click();
+    cy.get("@orderModal").should("not.exist");
   });
 });
