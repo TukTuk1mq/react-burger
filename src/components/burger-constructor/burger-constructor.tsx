@@ -90,7 +90,7 @@ export const BurgerConstructor: React.FC = () => {
     );
 
   return (
-    <div className={styles.main} ref={ref}>
+    <div className={styles.main} ref={ref} data-cy="constructor-dropzone">
       <div className={styles.ingredients}>
         {bun && (
           <div className="ml-6">
@@ -137,6 +137,7 @@ export const BurgerConstructor: React.FC = () => {
           size="medium"
           onClick={handleOrder}
           disabled={!bun || ingredients.length === 0 || isLoading}
+          data-cy="create-order"
         >
           {isLoading ? "Оформляем заказ..." : "Оформить заказ"}
         </Button>

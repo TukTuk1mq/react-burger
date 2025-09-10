@@ -8,7 +8,7 @@ export interface OrdersUserState {
   message: WebSocketOrderMessage | null;
 }
 
-const initialState: OrdersUserState = {
+export const initialState: OrdersUserState = {
   connected: false,
   connecting: false,
   error: null,

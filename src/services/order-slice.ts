@@ -25,7 +25,7 @@ export const createOrder = createAsyncThunk<
   }
 });
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orderNumber: null,
   isLoading: false,
   error: null,

@@ -35,6 +35,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
       ref={ref}
       onClick={() => onClick(item)}
       className={`${styles.card}`}
+      data-cy="ingredient-card"
+      data-cy-id={item._id}
+      data-cy-type={item.type}
       type="button"
     >
       <div className={styles.imageWrapper}>
